@@ -6,7 +6,7 @@ class UserService {
     const {name,password} = user;
     const statement = `INSERT INTO user (name,password) VALUES(?,?);`;
     const results = await connection.execute(statement,[name,password]);
-    console.log("用户存入数据库成功");
+    // console.log("用户存入数据库成功");
     return results[0]
   }
 

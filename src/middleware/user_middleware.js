@@ -1,5 +1,6 @@
 const errorTypes = require('../constants/error_types')
 const serviece = require('../service/user_service')
+const md5password = require('../utils/password_handle')
 
 const verifyUser = async (ctx,next)=>{
   // 1.获取用户名和密码
@@ -20,11 +21,17 @@ const verifyUser = async (ctx,next)=>{
     const error = new Error(errorTypes.USER_ALREADY_EXISTS)
     return ctx.app.emit('error',error,ctx)
   }
-
-
   await next();
 }
 
+const handlePassword = async(ctx,next)=>{
+  const  {password} = ctx.request.body
+  ctx.request.body.password = md5password(password)
+ 
+ await next();
+}
+
 module.exports = {
-  verifyUser
+  verifyUser,
+  handlePassword
 }

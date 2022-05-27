@@ -21,6 +21,10 @@ const errorHandler = (error,ctx) =>{
       status = 400; //conflict
       message = "密码错误"
       break;  
+    case errorTypes.UNAUTHORIZATION:
+      status = 401; //unauthorization
+      message = "token无效"
+      break;  
     default:
       status = 404;
       message = "默认错误";

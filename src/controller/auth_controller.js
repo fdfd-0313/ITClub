@@ -12,7 +12,13 @@ class AuthControler{
   }
 
   async success(ctx,next){
-    ctx.body = '授权成功'
+    const {id,name} = ctx.user
+    const authorizateSuc = {
+      id:id,
+      user:name,
+      authorization: "ture"
+    }
+    ctx.body = authorizateSuc
   }
 }
 

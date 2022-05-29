@@ -25,6 +25,10 @@ const errorHandler = (error,ctx) =>{
       status = 401; //unauthorization
       message = "token无效"
       break;  
+    case errorTypes.UNPERMISSION:
+      status = 401; //unauthorization
+      message = "您不具备权限"
+      break; 
     default:
       status = 404;
       message = "默认错误";

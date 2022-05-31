@@ -35,9 +35,9 @@ const verifyLogin = async(ctx,next)=>{
   ctx.user = user;
   await next();
 }
-// 授权验证中间件
+// 授权验证中间件(判断是否登录)
 const verifyAuth = async(ctx,next)=>{
-  console.log('验证授权的midleware');
+  console.log('授权验证middleware(判断是否登录)');
   // 1. 获取token
   const authorization = ctx.headers.authorization;
   if (!authorization) {
@@ -60,16 +60,18 @@ const verifyAuth = async(ctx,next)=>{
 }
 
 // 验证已登录用户是否具备修改内容权限中间件
-const verifyPerssion = async(ctx,next)=>{
+const verifyPermission = async(ctx,next)=>{
   console.log("验证已登录用户是否具备修改内容权限middleware");
   // 1.获取用户参数
-  const { momentId } = ctx.params
+  const [resourceKey ]= Object.keys(ctx.params) 
+  const tableName = resourceKey.replace('Id','')
+  const resourceId = ctx.params[resourceKey]
   const { id } = ctx.user
   // console.log(momentId,id);
 
   // 2.查询是否具备权限
   try{
-    const isPermission = await authServiece.checkMoment(momentId,id)
+    const isPermission = await authServiece.checkResource(tableName,resourceId,id)
     if(!isPermission) throw new Error()
   }catch(err){
     const error = new Error(errorTypes.UNPERMISSION)
@@ -81,5 +83,5 @@ const verifyPerssion = async(ctx,next)=>{
 module.exports = {
   verifyLogin,
   verifyAuth,
-  verifyPerssion
+  verifyPermission
 }

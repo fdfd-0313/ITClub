@@ -3,6 +3,7 @@ const serviece = require('../service/user_service')
 const md5password = require('../utils/password_handle')
 
 const verifyUser = async (ctx,next)=>{
+  console.log("用户注册验证middleware");
   // 1.获取用户名和密码
   const {name,password}= ctx.request.body
   // console.log(name,password);
